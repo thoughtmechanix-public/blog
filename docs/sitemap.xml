@@ -3,35 +3,35 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://example.com/aboutme/</loc>
+    <loc>https://thoughtmechanix.com/aboutme/</loc>
     <lastmod>2021-07-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://example.com/</loc>
+    <loc>https://thoughtmechanix.com/</loc>
     <lastmod>2021-05-04T11:30:13+05:30</lastmod>
   </url>
   
   <url>
-    <loc>https://example.com/project/example/</loc>
+    <loc>https://thoughtmechanix.com/project/example/</loc>
     <lastmod>2021-05-04T11:30:13+05:30</lastmod>
   </url>
   
   <url>
-    <loc>https://example.com/project/</loc>
+    <loc>https://thoughtmechanix.com/project/</loc>
     <lastmod>2021-05-04T11:30:13+05:30</lastmod>
   </url>
   
   <url>
-    <loc>https://example.com/categories/</loc>
+    <loc>https://thoughtmechanix.com/categories/</loc>
   </url>
   
   <url>
-    <loc>https://example.com/series/</loc>
+    <loc>https://thoughtmechanix.com/series/</loc>
   </url>
   
   <url>
-    <loc>https://example.com/tags/</loc>
+    <loc>https://thoughtmechanix.com/tags/</loc>
   </url>
   
 </urlset>
