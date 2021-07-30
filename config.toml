@@ -1,5 +1,5 @@
 theme = "soho"
-baseURL = "https://example.com"
+baseURL = "https://thoughtmechanix.com"
 #title = "Thoughtmechanix"
 languageCode = "en"
 enableInlineShortcodes = true
