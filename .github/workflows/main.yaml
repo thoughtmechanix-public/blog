@@ -30,7 +30,7 @@ jobs:
         with:
           personal_token: ${{ secrets.BLOG }}
           external_repository: thoughtmechanix-public/blog
-          publish_dir: ./docs
+          publish_dir: docs
           #  keep_files: true
           user_name: carnellj
           user_email: john_carnell@yahoo.com
