@@ -1,2 +1,2 @@
 # Thoughtmechanix
-Booms   
+Boom   
