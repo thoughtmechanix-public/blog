@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
 
       # - name: Update theme
       #   # (Optional)If you have the theme added as submodule, you can pull it and use the most updated version
@@ -29,7 +31,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.BLOG }}
-          publish_dir: ./blog/docs
+          publish_dir: ./docs
           allow_empty_commit: true
           #  keep_files: true
           user_name: carnellj
