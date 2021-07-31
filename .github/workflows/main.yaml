@@ -29,7 +29,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.BLOG }}
-          external_repository: thoughtmechanix-public/blog
           publish_dir: ./docs
           #  keep_files: true
           user_name: carnellj
