@@ -34,5 +34,5 @@ jobs:
           #  keep_files: true
           user_name: carnellj
           user_email: john_carnell@yahoo.com
-          publish_branch: master
+          publish_branch: main
           cname: thoughtmechanix.com
