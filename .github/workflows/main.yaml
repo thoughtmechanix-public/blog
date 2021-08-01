@@ -21,7 +21,7 @@ jobs:
         with:
           hugo-version: '0.85.0'
           extended: true
-       
+
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
       - name: Build
@@ -29,8 +29,8 @@ jobs:
         # docs: https://gohugo.io/hugo-pipes/minification/
         run: hugo 
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      # - name: Setup tmate session
+      #   uses: mxschmitt/action-tmate@v3
 
 
       - name: Deploy
