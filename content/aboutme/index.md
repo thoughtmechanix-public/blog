@@ -4,7 +4,7 @@ date: 2021-07-28
 draft: false
 ---
   ![me](/images/realpic.jpeg) 
-  I have been in software development for 26 years and been with Genesys since 2015. Recently, I took on the challenge of launching the Genesys Cloud Developer Engagement team. Leading a team of 8 engineers and evangelists, my team is responsible for building Genesys Clouds SDK's, CLI and customer DevOps tools.  We also maintain our Developer portal and regularly interact with customers, teaching and mentoring them on cloud development best practices using our Genesys Cloud contact center platform.
+  I have been in software development for 26 years and been with Genesys since 2015. Recently, I took on the challenge of launching the Genesys Cloud Developer Engagement team. I lead a team of 8 engineers and evangelists. The Deveoper Engagement team is responsible for building Genesys Clouds SDK's, CLI and customer DevOps tools. We also maintain our Developer portal and regularly interact with customers, teaching and mentoring them on cloud development best practices using our Genesys Cloud contact center platform.
 
 Before starting the Developer Engagement team, I spent the last 5 years at Genesys working in and leading the Edge Infrastructure Team. In this role, I lead a team of developer managing a portfolio of 17 tier-0 services written in Java, Kotlin, Go and Clojure.  In addition, my team saw the automated provisioning and upgrading of thousands of telephony servers spread across 9 AWS regions. 
 
