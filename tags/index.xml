@@ -5,6 +5,43 @@
     <link>https://thoughtmechanix.com/tags/</link>
     <description>Recent content in Tags on </description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://thoughtmechanix.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Sun, 01 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://thoughtmechanix.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DevOps</title>
+      <link>https://thoughtmechanix.com/tags/devops/</link>
+      <pubDate>Sun, 01 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://thoughtmechanix.com/tags/devops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Docker</title>
+      <link>https://thoughtmechanix.com/tags/docker/</link>
+      <pubDate>Sun, 01 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://thoughtmechanix.com/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>HCL</title>
+      <link>https://thoughtmechanix.com/tags/hcl/</link>
+      <pubDate>Sun, 01 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://thoughtmechanix.com/tags/hcl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Packer</title>
+      <link>https://thoughtmechanix.com/tags/packer/</link>
+      <pubDate>Sun, 01 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://thoughtmechanix.com/tags/packer/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

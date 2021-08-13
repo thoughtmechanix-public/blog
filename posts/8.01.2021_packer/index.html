@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Hugo 0.85.0" />
+
+  <title>Building and publishing a Docker image with Packer &middot; </title>
+
+  <meta name="description" content="" />
+
+  
+
+<meta itemprop="name" content="Building and publishing a Docker image with Packer">
+<meta itemprop="description" content="A few weeks ago I was playing around with the Hashicorp stack using Vagrant, Nomad and Consul."><meta itemprop="datePublished" content="2021-08-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-08-01T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2179">
+<meta itemprop="keywords" content="DevOps,Docker,Packer,HCL," />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Building and publishing a Docker image with Packer"/>
+<meta name="twitter:description" content="A few weeks ago I was playing around with the Hashicorp stack using Vagrant, Nomad and Consul."/>
+
+
+<meta property="og:title" content="Building and publishing a Docker image with Packer" />
+<meta property="og:description" content="A few weeks ago I was playing around with the Hashicorp stack using Vagrant, Nomad and Consul." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://thoughtmechanix.com/posts/8.01.2021_packer/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-08-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-08-01T00:00:00+00:00" />
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type":"Person",
+      "@id": "https://thoughtmechanix.com#author",
+      "name": "John Carnell",
+      "image": {
+        "@type":"ImageObject",
+        
+        "url": "https://thoughtmechanix.com/images/profile.png"
+        
+      },
+      "description": "Thoughtmechanix"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://thoughtmechanix.com#website",
+      "url": "https://thoughtmechanix.com",
+      "name": "",
+      "description": "Thoughtmechanix",
+      "publisher": {
+        "@id": "https://thoughtmechanix.com#author"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://thoughtmechanix.com/posts/8.01.2021_packer/#webpage",
+      "url": "https://thoughtmechanix.com/posts/8.01.2021_packer/",
+      "name": "Building and publishing a Docker image with Packer",
+      "isPartOf": {
+        "@id": "https://thoughtmechanix.com#website"
+      },
+      "about": {
+         "@id": "https://thoughtmechanix.com#author"
+      },
+      "datePublished": "2021-08-01T00:00:00+00:00",
+      "dateModified": "2021-08-01T00:00:00+00:00",
+      "description": "A few weeks ago I was playing around with the Hashicorp stack using Vagrant, Nomad and Consul.",
+      "inLanguage": "en",
+      "potentialAction": [
+        {
+          "@type": "ReadAction",
+          "target": [
+            "https://thoughtmechanix.com/posts/8.01.2021_packer/"
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "isPartOf": {
+        "@id": "https://thoughtmechanix.com/posts/8.01.2021_packer/#webpage"
+      },
+      "mainEntityOfPage": {
+        "@id": "https://thoughtmechanix.com/posts/8.01.2021_packer/#webpage"
+      },
+      "headline": "Building and publishing a Docker image with Packer",
+      "datePublished": "2021-08-01T00:00:00+00:00",
+      "dateModified": "2021-08-01T00:00:00+00:00",
+      "publisher": {
+        "@id": "https://thoughtmechanix.com#author"
+      },
+      "keywords": [
+        "DevOps",
+        "Docker",
+        "Packer",
+        "HCL"
+      ],
+      "articleSection": [
+      ],
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name":  null 
+      },
+      "potentialAction": [
+        {
+          "@type": "CommentAction",
+          "name": "Comment",
+          "target": [
+            "https://thoughtmechanix.com/posts/8.01.2021_packer/#comments"
+          ]
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/print.css"
+        media="print">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/poole.css">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/hyde.css">
+
+  
+<style type="text/css">
+  .sidebar {
+    background-color: #000000;
+  }
+
+  .read-more-link a {
+    border-color: #000000;
+  }
+
+  .read-more-link a:hover {
+    background-color: #000000;
+  }
+
+  .pagination li a {
+    color: #000000;
+    border: 1px solid #000000;
+  }
+
+  .pagination li.active a {
+    background-color: #000000;
+  }
+
+  .pagination li a:hover {
+    background-color: #000000;
+    opacity: 0.75;
+  }
+
+  footer a,
+  .content a,
+  .related-posts li a:hover {
+    color: #000000;
+  }
+</style>
+
+
+
+  <link type="text/css" rel="stylesheet" href="/css/blog.css">
+
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+        integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+        crossorigin="anonymous" />
+
+  <link rel="apple-touch-icon-precomposed"
+        sizes="144x144"
+        href="/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  </head>
+<body>
+  <aside class="sidebar">
+  <div class="container">
+    <div class="sidebar-about">
+      
+        
+        <div class="author-image">
+          <a href="https://thoughtmechanix.com">
+            <img src="/images/profile.png" class="img-circle img-headshot center" alt="Profile Picture">
+          </a>
+        </div>
+        
+      
+
+      <h1></h1>
+
+      
+      <p class="lead">Thoughtmechanix</p>
+      
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="https://thoughtmechanix.com">Home</a>
+        </li>
+        <li>
+          <a href="/posts/">Posts</a>
+        </li><li>
+          <a href="/aboutme/">About Me</a>
+        </li>
+      </ul>
+    </nav>
+
+    <section class="social-icons">
+      
+      <a href="#" rel="me" title="Linkedin" target="_blank">
+        <i class="fab fa-linkedin" aria-hidden="true"></i>
+      </a>
+      
+      <a href="#" rel="me" title="GitHub" target="_blank">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
+      
+      <a href="#" rel="me" title="Twitter" target="_blank">
+        <i class="fab fa-twitter" aria-hidden="true"></i>
+      </a>
+      
+    </section>
+  </div>
+</aside>
+
+
+  <main class="content container">
+  <div class="post">
+  <h1 class="title">Building and publishing a Docker image with Packer</h1>
+  
+
+  <div class="post-date">
+    <time datetime="2021-08-01T00:00:00Z">Aug 1, 2021</time> <span class="readtime">&middot; 11 min read</span>
+  </div>
+
+  <div>
+  <p>A few weeks ago I was playing around with the <a href="https://www.hashicorp.com/">Hashicorp</a> stack using <a href="https://www.vagrantup.com/">Vagrant</a>, <a href="https://www.nomadproject.io/">Nomad</a> and <a href="https://www.consul.io/">Consul</a>. I was just trying to build a cluster of machines to deploy a Docker-based Golang service. I could have done the work with Dockerfiles directly to provision the container, but I decided instead to give <a href="https://www.packer.io/">Packer</a> a try.</p>
+<p>Packer is a Hashicorp tool used to provision virtual machine images that can be deployed to a cloud provider (e.g. AWS, Azure, Oracle, etc&hellip;) Packer can also be used to provision Docker containers.</p>
+<p>In this post, I am going to walk through what I did to take a compile a simple Golang-based service, build it as a Docker container and then push it to Docker hub.</p>
+<p><strong>Note</strong>: All of the source code for this project can be found <a href="https://github.com/thoughtmechanix-public/orders_service_terraform_example">here</a>.</p>
+<h3 id="why-did-i-choose-go-for-my-microservice-example">Why did I choose Go for my microservice example?</h3>
+<p>I have worked with a lot of different programming languages throughout my career. Many of them are excellent languages.
+I chose Go because frankly it is super simple to learn and compiles down to a single native, binary executable. A single binary executable makes provisioning containers a snap because you are usually only worried about one thing when you are provisioning you are a container, installing the binary. I will take simplicity any day of the week and Go in most cases fits the bill for what I need for day-to-day development.</p>
+<h3 id="building-the-go-microservice">Building the Go microservice</h3>
+<p>All code for the Go service is located in the <code>src</code> directory of the Github repository. This simple service does nothing more then expose a <code>/healthcheck</code> endpoint on port <code>8888</code>. In a *nix environment you can run the <code>make</code> file command to build the project. If you are running in a Windows environment, you can change to the <code>src</code> directory and run <code>go build</code>.</p>
+<h3 id="building-the-docker-container">Building the Docker Container</h3>
+<p>Once you have a binary you can build the Docker container using Packer. Packer lets you declaratively define how you want to provision a virtual image or container in a human readable text format. Packer supports two different markup languages for defining the provisioning process: JSON and HCL (Hashicorp Markup Language). For this example, we are going to use HCL. HCL tends to be much less verbose than JSON and since I was doing this work in the context of other Hashicorp projects (Nomand and Consul) I wanted to stick with HCL as this is the most popular markup language used in these other tools.</p>
+<p>I am not going to walk through the syntax of HCL here. For a well-written explanation of HCL, I suggest you take a look Adam Bertram&rsquo;s excellent overview of the subject <a href="https://octopus.com/blog/introduction-to-hcl-and-hcl-tooling">here</a>.</p>
+<p><strong>Note:</strong>  If you are going to use HCL with Packer, your provisioning file needs to end in <code>.hcl</code>.</p>
+<p>Let&rsquo;s go ahead and walk through what is in our Packer provisioning file. This file is located in the <code>provision</code> directory and called <code>orders.pkr.hcl</code>.</p>
+<p>In the <code>orders.pkr.hcl</code> file above we have four key activities:</p>
+<ol>
+<li>
+<p>Defining the plugins used we are going to use in Packer.</p>
+</li>
+<li>
+<p>Defining input variables to generalize the build configuration.</p>
+</li>
+<li>
+<p>Configuring the Docker image we are going to build our image from.</p>
+</li>
+<li>
+<p>Building Docker container and pushing it to Docker hub.</p>
+</li>
+</ol>
+<p>The code contained in this file looks like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#75715e">
+</span><span style="color:#75715e">#Defining the plugins used we are going to use in Packer.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">packer</span> {
+  <span style="color:#66d9ef">required_plugins</span> {
+    docker <span style="color:#f92672">=</span> {
+      version <span style="color:#f92672">=</span> &#34;&gt;<span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>.<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">&#34;</span>
+      source  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;github.com/hashicorp/docker&#34;</span>
+    }
+  }
+}<span style="color:#75715e">
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">#Defining input variables for values for generalizing the build.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">variable</span>  <span style="color:#e6db74">&#34;docker_repo&#34;</span> {
+  type <span style="color:#f92672">=</span> <span style="color:#66d9ef">string</span>
+  sensitive <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+}
+
+<span style="color:#66d9ef">variable</span>  <span style="color:#e6db74">&#34;docker_username&#34;</span> {
+  type <span style="color:#f92672">=</span> <span style="color:#66d9ef">string</span>
+  sensitive <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+}
+
+<span style="color:#66d9ef">variable</span> <span style="color:#e6db74">&#34;docker_password&#34;</span> {
+  type <span style="color:#f92672">=</span> <span style="color:#66d9ef">string</span>
+  sensitive <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+}<span style="color:#75715e">
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">#Configuring the Docker image we are going to build our image from
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">source</span> <span style="color:#e6db74">&#34;docker&#34; &#34;golang&#34;</span> {
+  image       <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;golang&#34;</span>
+  commit      <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+  pull        <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+  changes <span style="color:#f92672">=</span> [
+    <span style="color:#e6db74">&#34;EXPOSE 8888 8888&#34;</span>,
+    <span style="color:#e6db74">&#34;ENTRYPOINT [\&#34;/bin/orders\&#34;]&#34;</span>
+  ]
+}<span style="color:#75715e">
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">#Building Docker container and pushing it to Docker hub.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">build</span> {
+  sources <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;source.docker.golang&#34;</span>]
+
+  <span style="color:#66d9ef">provisioner</span> <span style="color:#e6db74">&#34;file&#34;</span> {
+    source      <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;../bin/orders&#34;</span>
+    destination <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/bin/&#34;</span>
+  }
+  
+  <span style="color:#66d9ef">post</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#66d9ef">processors</span> {
+    <span style="color:#66d9ef">post</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#66d9ef">processor</span> <span style="color:#e6db74">&#34;docker-tag&#34;</span> {
+      repository <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">docker_repo</span>
+      tags       <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;1.0&#34;</span>]
+    }
+
+    <span style="color:#66d9ef">post</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#66d9ef">processor</span> <span style="color:#e6db74">&#34;docker-push&#34;</span> {
+      login<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span>
+      login_username <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">docker_username</span>
+      login_password <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">docker_password</span>
+    }
+  }  
+}
+</code></pre></div><h4 id="defining-the-plugins-used-we-are-going-to-use-in-packer">Defining the plugins used we are going to use in Packer.</h4>
+<p>All HCL files contain one or more stanzas in them. A stanza defines a discrete piece of functionality that is going to
+be carried out by the application processing the block. In the case of our Packer file, the first stanze intializes Packer
+and tells it what &ldquo;plugins&rdquo; are going to be used in. The plugin are how Hashicorp makes their products extensible. Some of their products (e.g. Terraform) allow the open source community to write and contribute plugins. In the case of Packer, each different environment in which you can provision a VM or Docker container instance is its own plugin.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#66d9ef">packer</span> {
+  <span style="color:#66d9ef">required_plugins</span> {
+    docker <span style="color:#f92672">=</span> {
+<span style="display:block;width:100%;background-color:#3c3d38">      version <span style="color:#f92672">=</span> &#34;&gt;<span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>.<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">&#34;</span>
+</span><span style="display:block;width:100%;background-color:#3c3d38">      source  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;github.com/hashicorp/docker&#34;</span>
+</span>    }
+  }
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>Packer&rsquo;s plugin system uses semantic versioning to determine what version of a plugin in should be used with this configuration.  In the lines 4 and 5 above, we are indicating that this script can use any of the Focker plugins that are of version 1.0.1. or higher.</p>
+<p><strong>Note</strong>: The <code>source</code> attribute above does not match exactly to the Hashicorp source control repository. The source for the Docker plugin can be found <a href="https://github.com/hashicorp/packer-plugin-docker">here</a>.</p>
+<h4 id="defining-input-variables-for-values-for-generalizing-the-build">Defining input variables for values for generalizing the build</h4>
+<p>Packer allows you to generalize your provisioning scripts through the use of variables. Packer has three types of variables: <code>input</code>, <code>output</code>, and <code>local</code>. In this blog post we are only going to demonstrate the usage of input variables. Input variables are set before the configuration is processed. At runtime, these variables can be set by passing them in the command-line or as environment variables.</p>
+<p>In our Packer configuration we define three input variables that will be used to control how we publish our built Docker image to a Docker repository (e.g. Docker Hub):</p>
+<ol>
+<li>
+<p><strong>docker_repo</strong>. The Docker repository we are going to publish the image to.</p>
+</li>
+<li>
+<p><strong>docker_username</strong>. The Docker Hub account user name the Packer configuration is going to use for publication.</p>
+</li>
+<li>
+<p><strong>docker_password</strong>. The Docker Hub account password the Packer configuration is going to use for publication.</p>
+</li>
+</ol>
+<p>Let&rsquo;s take a look at how these input variables are defined in our <code>orders.pkr.hcl</code> file.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="display:block;width:100%;background-color:#3c3d38"><span style="color:#66d9ef">variable</span>  <span style="color:#e6db74">&#34;docker_repo&#34;</span> {
+</span>  type <span style="color:#f92672">=</span> <span style="color:#66d9ef">string</span>
+  sensitive <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+}
+
+<span style="display:block;width:100%;background-color:#3c3d38"><span style="color:#66d9ef">variable</span>  <span style="color:#e6db74">&#34;docker_username&#34;</span> {
+</span>  type <span style="color:#f92672">=</span> <span style="color:#66d9ef">string</span>
+  sensitive <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+}
+
+<span style="display:block;width:100%;background-color:#3c3d38"><span style="color:#66d9ef">variable</span> <span style="color:#e6db74">&#34;docker_password&#34;</span> {
+</span>  type <span style="color:#f92672">=</span> <span style="color:#66d9ef">string</span>
+  sensitive <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>We are only scratching the surface on Packers variable capabilities. For a much more detailed description of Packer&rsquo;s variable system please take a look at the <a href="https://www.packer.io/guides/hcl/variables">Packer</a> variable documentation.</p>
+<h4 id="configuring-the-docker-image-we-are-going-to-build-our-image-from">Configuring the Docker image we are going to build our image from.</h4>
+<p>Next we are going to define how we are going to configure the base Docker image we are going to use for a build. To do this we are going to use the Packer <code>source</code> stanze.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#66d9ef">source</span> <span style="color:#e6db74">&#34;docker&#34; &#34;golang&#34;</span> {
+  image       <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;golang&#34;</span>
+  commit      <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+  pull        <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+  changes <span style="color:#f92672">=</span> [
+    <span style="color:#e6db74">&#34;EXPOSE 8888 8888&#34;</span>,
+    <span style="color:#e6db74">&#34;ENTRYPOINT [\&#34;/bin/orders\&#34;]&#34;</span>
+  ]
+}
+</code></pre></div><p>In our <code>source</code> stanze above we are telling Packer we are going to use the <code>docker</code> source for configuration. We give the source a logical name (e.g. golang). Then we configure the source via number of attributes. These attributes include:</p>
+<ol>
+<li>
+<p><strong>image</strong>. This indicates the Docker hub image we are going to build our image from. In this case the image we are going to use is the golang image found on Docker Hub. This image can found <a href="https://hub.docker.com/_/golang">here</a>.</p>
+</li>
+<li>
+<p><strong>commit</strong>. The <code>commit</code> attribute is a boolean value that will tell Packer whether the container we are building will be committed to an repo as a Docker image or tarred up into a tar file. A <code>true</code> value indicates the container will be created as a Docker image and published to a Docker repository.  A <code>false</code> value tells the plugin to create a tar file.</p>
+</li>
+<li>
+<p><strong>pull</strong>. The <code>pull</code> attribute is a boolean value that will tell Packer whether or not it should try to pull from Docker hub before it tries to build. If the attribute is <code>true</code> Packer will do a pull from Docker hub. If the attribute is <code>false</code> the image will assumed to be in the local Docker repository running on the machine running Packer and will not attemp to pull it from Docker hub.</p>
+</li>
+<li>
+<p><strong>changes</strong>. This is the main configuration point for changes we are going to make to our Docker container. In the example above, we are going to expose port <code>8888</code> on the Docker container we are building and tell Docker that when the container is started it shoudl run <code>/bin/orders</code>. This is the where the <code>orders</code> binary is going to be placed when the container image is built. Remember, the <code>orders</code> binary was built in the &ldquo;Building the Go microservice&rdquo; section of the blog.</p>
+</li>
+</ol>
+<h4 id="building-the-docker-container-and-pushing-it-to-a-docker-registry">Building the Docker container and pushing it to a Docker registry.</h4>
+<p>The last part of our Packer build process is to actually build the Docker container and then push it to a Docker registry. To do this we are going to use the <code>build</code> stanza. This stanze has multiple parts and we will walkthrough them all in the section. Here is the source code for the <code>build</code> stanza:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#66d9ef">build</span> {
+<span style="display:block;width:100%;background-color:#3c3d38">  sources <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;source.docker.golang&#34;</span>]
+</span>
+<span style="display:block;width:100%;background-color:#3c3d38">  <span style="color:#66d9ef">provisioner</span> <span style="color:#e6db74">&#34;file&#34;</span> {
+</span>    source      <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;../bin/orders&#34;</span>
+    destination <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/bin/&#34;</span>
+  }
+  
+  <span style="color:#66d9ef">post</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#66d9ef">processors</span> {
+<span style="display:block;width:100%;background-color:#3c3d38">    <span style="color:#66d9ef">post</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#66d9ef">processor</span> <span style="color:#e6db74">&#34;docker-tag&#34;</span> {
+</span>      repository <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">docker_repo</span>
+      tags       <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;1.0&#34;</span>]
+    }
+
+<span style="display:block;width:100%;background-color:#3c3d38">    <span style="color:#66d9ef">post</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#66d9ef">processor</span> <span style="color:#e6db74">&#34;docker-push&#34;</span> {
+</span>      login<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span>
+      login_username <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">docker_username</span>
+      login_password <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">docker_password</span>
+    }
+  }  
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s look through the highlighted lines above to understand the <code>builder</code> stanza. The first area of interest is the <code>sources</code> attribute on line 2 of the example above.  This attribute contains a list of Docker images that we are going to build. The value in this list is the concatanated values of the <code>source</code> stanza we declared earlier in the file (e.g. source.docker.golang).</p>
+<p><strong>Note</strong>:  I have no idea why Hashicorp made the <code>source</code> attribute a list of strings. There might be a use case for it, but I am not seeing it.</p>
+<p>The <code>provisioner</code> stanza, on line 4 above, is used to tell Packer where to put a file in the Docker image. In this case we are putting the binary for the <code>orders</code> service (located in the <code>../bin</code> directory locally ) into the <code>/bin</code> directory for our Docker image. This is the binary that will be executed when our Docker image is started.</p>
+<p>The next stanza, <code>post-processors</code> defines a list of <code>post-processor</code> stanzas.  The <code>post-processor</code> stanza is used to tell the builder what actions to take after the Docker image is built. In our example above, we have two <code>post-processor</code> stanzas. The first stanza, <code>docker-tag</code> (line 10) has two attributes:  <code>repository</code> and <code>value</code>.  The <code>repository</code> attributes the specific repository you are going to be creating the Docker image against.  The <code>repository</code> attribute follows the convention of &ldquo;docker userid/image name&rdquo;. So for my repository it would be set to <code>johncarnell/orders</code>. The <code>tags</code> attributes defines a list of tags that will be applied to a Docker image. Tags are often used to uniquely identify multiple versions of the same Docker image.  The <code>tags</code> attribute for our example is hard-coded with single value of &ldquo;1.0&rdquo;. This is a hard-coded value but could easily be replaced with a generated tag passed in a packer variable.</p>
+<p>The second <code>post-processor</code> stanza <code>docker-push</code>(line 15) is used to push the image to a remote Docker repository after the image has built locally.. This stanza takes three attributes: <code>login</code>, <code>login_user</code>, and <code>login_password</code>.</p>
+<p>The <code>login</code> attribute is a boolean value that tells the <code>docker-push</code> stanza to login into a Docker registry. The <code>login_user</code> and <code>login_password</code> values provide the user credentials needed to login into a Docker registry. By default the <code>docker-push</code> stanza will use the <a href="https://hub.docker.com/">Docker Hub</a> registry. If you want to point to a different public or private registry you need to set the <code>login_server</code> attribute. For more information on using the <code>docker-push</code> post-processor stanza you can visit the <a href="https://www.packer.io/docs/post-processors/docker/docker-push">packer.io</a> page.</p>
+<h3 id="wrapping-things-up">Wrapping things up</h3>
+<p>At this point we have walked through all of the pieces of our Docker packer setup. Assuming you have already built the <code>orders</code> service binary you can build the Docker container using the <code>packer</code> command shown below. We are going to set pass in our three defined variables (<code>docker_username</code>,<code>docker_password</code>,<code>docker_repo</code>) using the <code>-var</code> command line parameters. The full command below is shown below with the individual values for my variables shown below.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">packer build -var <span style="color:#e6db74">&#34;docker_username=*****&#34;</span> -var <span style="color:#e6db74">&#34;docker_password=*****&#34;</span> -var <span style="color:#e6db74">&#34;docker_repo=*****&#34;</span> orders.pkr.hcl 
+</code></pre></div><p>Packer is a great tool and makes it straightforward to build images across a large number of cloud providers. While its simple to build Docker images using Docker, the flexibility and deep feature set of Packer makes it easy to justify using it to build your Docker images.</p>
+
+  </div>
+
+  
+<div>
+  <ul class="tags">
+  <li>
+    <a href="https://thoughtmechanix.com/tags/devops/" class="tag-link">DevOps</a>
+  </li>
+  
+  <li>
+    <a href="https://thoughtmechanix.com/tags/docker/" class="tag-link">Docker</a>
+  </li>
+  
+  <li>
+    <a href="https://thoughtmechanix.com/tags/packer/" class="tag-link">Packer</a>
+  </li>
+  
+  <li>
+    <a href="https://thoughtmechanix.com/tags/hcl/" class="tag-link">HCL</a>
+  </li>
+  </ul>
+</div>
+
+
+
+  <div class="share-buttons">
+  <a class="twitter-share-button"
+     href="#"
+     title="Share on Twitter"
+     data-url="https://thoughtmechanix.com/posts/8.01.2021_packer/"
+     data-text="Building and publishing a Docker image with Packer"><i class="fab fa-twitter"></i></a>
+
+  <a class="linkedin-share-button"
+     href="#"
+     title="Share on LinkedIn"
+     data-url="https://thoughtmechanix.com/posts/8.01.2021_packer/"
+     data-text="Building and publishing a Docker image with Packer"><i class="fab fa-linkedin-in"></i></a>
+
+  <a class="facebook-share-button"
+     href="#"
+     title="Share on Facebook"
+     data-url="https://thoughtmechanix.com/posts/8.01.2021_packer/"
+     data-text="Building and publishing a Docker image with Packer"><i class="fab fa-facebook"></i></a>
+
+  <a class="telegram-share-button"
+     href="#"
+     title="Share on Telegram"
+     data-url="https://thoughtmechanix.com/posts/8.01.2021_packer/"
+     data-text="Building and publishing a Docker image with Packer"><i class="fab fa-telegram"></i></a>
+
+  <a class="pinterest-share-button"
+     href="#"
+     title="Share on Pinterest"
+     data-url="https://thoughtmechanix.com/posts/8.01.2021_packer/"
+     data-text="Building and publishing a Docker image with Packer"><i class="fab fa-pinterest"></i></a>
+</div>
+
+
+  
+</div>
+  </main>
+
+  <footer>
+  <div>
+    <p>
+      &copy; John Carnell 2021
+
+      &middot; <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank">CC BY-SA 4.0</a>
+
+      
+    </p>
+  </div>
+</footer>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"
+          integrity="sha256-MAgcygDRahs+F/Nk5Vz387whB4kSK9NXlDN3w58LLq0="
+          crossorigin="anonymous"></script>
+
+
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/soho.js"></script>
+
+  <script src="/js/blog.js"></script>
+
+  
+</body>
+</html>

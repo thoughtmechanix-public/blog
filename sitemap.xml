@@ -2,11 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://thoughtmechanix.com/</loc>
+    <lastmod>2021-08-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/posts/8.01.2021_packer/</loc>
+    <lastmod>2021-08-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/tags/devops/</loc>
+    <lastmod>2021-08-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/tags/docker/</loc>
+    <lastmod>2021-08-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/tags/hcl/</loc>
+    <lastmod>2021-08-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/tags/packer/</loc>
+    <lastmod>2021-08-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/posts/</loc>
+    <lastmod>2021-08-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/tags/</loc>
+    <lastmod>2021-08-01T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://thoughtmechanix.com/aboutme/</loc>
     <lastmod>2021-07-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://thoughtmechanix.com/</loc>
-    <lastmod>2021-05-04T11:30:13+05:30</lastmod>
   </url><url>
     <loc>https://thoughtmechanix.com/project/example/</loc>
     <lastmod>2021-05-04T11:30:13+05:30</lastmod>
@@ -17,7 +38,5 @@
     <loc>https://thoughtmechanix.com/categories/</loc>
   </url><url>
     <loc>https://thoughtmechanix.com/series/</loc>
-  </url><url>
-    <loc>https://thoughtmechanix.com/tags/</loc>
   </url>
 </urlset>
