@@ -14,7 +14,7 @@
 <meta itemprop="name" content="My Nomad Cluster">
 <meta itemprop="description" content="Over the last year I have become a big fan of the Hashicorp stack.">
 
-<meta itemprop="wordCount" content="441">
+<meta itemprop="wordCount" content="474">
 <meta itemprop="keywords" content="DevOps,Docker,Nomad,Packer,Ansible,Consul,Krakend," />
 
 <meta name="twitter:card" content="summary"/>
@@ -257,22 +257,22 @@
 
   <div>
   <p>Over the last year I have become a big fan of the Hashicorp stack. They build clean, stable and useful tools for developers. While I use Terraform on a regular basis I wanted to spend some time exploring Nomad and Consul. I have read about these technologies off and on and I was curious about their approach to container management and orchestration. While researching these topics, I came across this blog <a href="https://discoposse.com/2019/11/21/building-a-hashicorp-nomad-cluster-lab-using-vagrant-and-virtualbox/">post</a> and its corresponding github <a href="https://github.com/discoposse/nomad-vagrant-lab">repo</a>. The guys at <a href="https://discoposse.com/">discoposse</a> did a great job with their lab environment.</p>
-<p>I decided to take their lab environment and extend it and put my own twist on it. I liked the outcome of it that I use it for a lot of my day-to-day service work. So here is a link to my <a href="https://github.com/thoughtmechanix-public/nomad-cluster">lab</a> in Github. The lab environment:</p>
+<p>I decided to take their lab environment and extend it and put my own twist on it. I liked the outcome of it  so much that I ended up using it for a lot of my day-to-day service work. Here is a link to my <a href="https://github.com/thoughtmechanix-public/nomad-cluster">lab</a> environment in Github. The lab environment:</p>
 <ol>
 <li>
-<p><strong>Installed a 3-node nomad/consul cluster</strong>. This came from the original <a href="https://discoposse.com/">discoposse</a> lab and includes the basics of setting up the nomad cluster and lab. One thing I did differently from the original lab is  switched the entire lab away from using shell scripts to do provisioning and moved it over to ansible.</p>
+<p><strong>Installs a 3-node nomad/consul cluster</strong>. This came from the original <a href="https://discoposse.com/">discoposse</a> lab and includes the basics of setting up the nomad cluster and lab. One thing I did differently from the original lab is  switched the entire lab away from using shell scripts to do provisioning and moved it over to ansible.</p>
 </li>
 <li>
-<p><strong>Installed DNSMasq on all three of the clusters</strong>.  The original <a href="https://discoposse.com/">discoposse</a> cluster did not have the node configured to use consul as one of their DNS servers. This made it a little bit painful to hop onto a node in the cluster and try to <code>curl</code> to a target endpoint for a service.</p>
+<p><strong>Installs DNSMasq on all three of the clusters</strong>.  The original <a href="https://discoposse.com/">discoposse</a> cluster did not have the node configured to use consul as one of their DNS servers. This made it a little bit painful to hop onto a node in the cluster and try to <code>curl</code> to a target endpoint for a service.</p>
 </li>
 <li>
-<p><strong>Leveraged a Krakend service API gateway</strong>. Through my professional work and my book I have used the concept of API gateways to provide a central policy enforcement point (PEP) for all service calls. I wanted to try out a different API gateway then the Spring Cloud API gateway so I settled on trying Krakend. Its a pretty good API gateway and I am still learning the ins and outs if it.</p>
+<p><strong>Leverages a Krakend service API gateway</strong>. Through my professional work and my book I have used the concept of API gateways to provide a central policy enforcement point (PEP) for all service calls. I wanted to try out a different API gateway then the Spring Cloud API gateway so I settled on trying Krakend. Its a pretty good API gateway and I am still learning the ins and outs if it.</p>
 </li>
 <li>
-<p><strong>A simple service to deploy</strong>.  The original <a href="https://discoposse.com/">discoposse</a> lab set up the cluster, but did not include a sample service to actually test to see if everything is working correctly. I wrote a simple GoLang service and included everything to deploy it. The service is nothing more then a healthcheck endpoint but it is an example of how to build and deploy a service. For my own edification, I spent some time playing around with Packer and use Packer to build my docker container.</p>
+<p><strong>Provides a simple service to deploy</strong>.  The original <a href="https://discoposse.com/">discoposse</a> lab set up the cluster, but did not include a sample service to actually test to see if everything is working correctly. I wrote a simple GoLang service and included everything to deploy it. The service is nothing more then a healthcheck endpoint but it is an example of how to build and deploy a service. For my own edification, I spent some time playing around with Packer and use Packer to build my docker container.</p>
 </li>
 </ol>
-<p>I really enjoyed building this cluster out. I have used Kubernetes in the past, so it was refreshing to see a robust alternative to Kubernetes.</p>
+<p>I really enjoyed building this cluster out. I have used Kubernetes in the past, so it was refreshing to see a robust alternative to Kubernetes.  I always welcome feedback so if you see anything wrong or a better way to set up something I always welcomes comments and feedback in the github repository.</p>
 <h2 id="additional-resources">Additional Resources</h2>
 <ol>
 <li><a href="https://discoposse.com/2019/11/21/building-a-hashicorp-nomad-cluster-lab-using-vagrant-and-virtualbox/">Original Discoposse blog post</a>.</li>
