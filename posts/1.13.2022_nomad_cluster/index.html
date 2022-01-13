@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Hugo 0.85.0" />
+
+  <title>My Nomad Cluster &middot; </title>
+
+  <meta name="description" content="" />
+
+  
+
+<meta itemprop="name" content="My Nomad Cluster">
+<meta itemprop="description" content="Over the last year I have become a big fan of the Hashicorp stack.">
+
+<meta itemprop="wordCount" content="441">
+<meta itemprop="keywords" content="DevOps,Docker,Nomad,Packer,Ansible,Consul,Krakend," />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="My Nomad Cluster"/>
+<meta name="twitter:description" content="Over the last year I have become a big fan of the Hashicorp stack."/>
+
+
+<meta property="og:title" content="My Nomad Cluster" />
+<meta property="og:description" content="Over the last year I have become a big fan of the Hashicorp stack." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/" /><meta property="article:section" content="posts" />
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type":"Person",
+      "@id": "https://thoughtmechanix.com#author",
+      "name": "John Carnell",
+      "image": {
+        "@type":"ImageObject",
+        
+        "url": "https://thoughtmechanix.com/images/profile.png"
+        
+      },
+      "description": "Thoughtmechanix"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://thoughtmechanix.com#website",
+      "url": "https://thoughtmechanix.com",
+      "name": "",
+      "description": "Thoughtmechanix",
+      "publisher": {
+        "@id": "https://thoughtmechanix.com#author"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/#webpage",
+      "url": "https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/",
+      "name": "My Nomad Cluster",
+      "isPartOf": {
+        "@id": "https://thoughtmechanix.com#website"
+      },
+      "about": {
+         "@id": "https://thoughtmechanix.com#author"
+      },
+      "description": "Over the last year I have become a big fan of the Hashicorp stack.",
+      "inLanguage": "en",
+      "potentialAction": [
+        {
+          "@type": "ReadAction",
+          "target": [
+            "https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/"
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "isPartOf": {
+        "@id": "https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/#webpage"
+      },
+      "mainEntityOfPage": {
+        "@id": "https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/#webpage"
+      },
+      "headline": "My Nomad Cluster",
+      "publisher": {
+        "@id": "https://thoughtmechanix.com#author"
+      },
+      "keywords": [
+        "DevOps",
+        "Docker",
+        "Nomad",
+        "Packer",
+        "Ansible",
+        "Consul",
+        "Krakend"
+      ],
+      "articleSection": [
+      ],
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name":  null 
+      },
+      "potentialAction": [
+        {
+          "@type": "CommentAction",
+          "name": "Comment",
+          "target": [
+            "https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/#comments"
+          ]
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/print.css"
+        media="print">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/poole.css">
+
+  <link type="text/css"
+        rel="stylesheet"
+        href="/css/hyde.css">
+
+  
+<style type="text/css">
+  .sidebar {
+    background-color: #000000;
+  }
+
+  .read-more-link a {
+    border-color: #000000;
+  }
+
+  .read-more-link a:hover {
+    background-color: #000000;
+  }
+
+  .pagination li a {
+    color: #000000;
+    border: 1px solid #000000;
+  }
+
+  .pagination li.active a {
+    background-color: #000000;
+  }
+
+  .pagination li a:hover {
+    background-color: #000000;
+    opacity: 0.75;
+  }
+
+  footer a,
+  .content a,
+  .related-posts li a:hover {
+    color: #000000;
+  }
+</style>
+
+
+
+  <link type="text/css" rel="stylesheet" href="/css/blog.css">
+
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+        integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+        crossorigin="anonymous" />
+
+  <link rel="apple-touch-icon-precomposed"
+        sizes="144x144"
+        href="/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  </head>
+<body>
+  <aside class="sidebar">
+  <div class="container">
+    <div class="sidebar-about">
+      
+        
+        <div class="author-image">
+          <a href="https://thoughtmechanix.com">
+            <img src="/images/profile.png" class="img-circle img-headshot center" alt="Profile Picture">
+          </a>
+        </div>
+        
+      
+
+      <h1></h1>
+
+      
+      <p class="lead">Thoughtmechanix</p>
+      
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="https://thoughtmechanix.com">Home</a>
+        </li>
+        <li>
+          <a href="/posts/">Posts</a>
+        </li><li>
+          <a href="/aboutme/">About Me</a>
+        </li>
+      </ul>
+    </nav>
+
+    <section class="social-icons">
+      
+      <a href="#" rel="me" title="Linkedin" target="_blank">
+        <i class="fab fa-linkedin" aria-hidden="true"></i>
+      </a>
+      
+      <a href="#" rel="me" title="GitHub" target="_blank">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
+      
+      <a href="#" rel="me" title="Twitter" target="_blank">
+        <i class="fab fa-twitter" aria-hidden="true"></i>
+      </a>
+      
+    </section>
+  </div>
+</aside>
+
+
+  <main class="content container">
+  <div class="post">
+  <h1 class="title">My Nomad Cluster</h1>
+  
+
+  <div class="post-date">
+    <time datetime="0001-01-01T00:00:00Z">Jan 1, 0001</time> <span class="readtime">&middot; 3 min read</span>
+  </div>
+
+  <div>
+  <p>Over the last year I have become a big fan of the Hashicorp stack. They build clean, stable and useful tools for developers. While I use Terraform on a regular basis I wanted to spend some time exploring Nomad and Consul. I have read about these technologies off and on and I was curious about their approach to container management and orchestration. While researching these topics, I came across this blog <a href="https://discoposse.com/2019/11/21/building-a-hashicorp-nomad-cluster-lab-using-vagrant-and-virtualbox/">post</a> and its corresponding github <a href="https://github.com/discoposse/nomad-vagrant-lab">repo</a>. The guys at <a href="https://discoposse.com/">discoposse</a> did a great job with their lab environment.</p>
+<p>I decided to take their lab environment and extend it and put my own twist on it. I liked the outcome of it that I use it for a lot of my day-to-day service work. So here is a link to my <a href="https://github.com/thoughtmechanix-public/nomad-cluster">lab</a> in Github. The lab environment:</p>
+<ol>
+<li>
+<p><strong>Installed a 3-node nomad/consul cluster</strong>. This came from the original <a href="https://discoposse.com/">discoposse</a> lab and includes the basics of setting up the nomad cluster and lab. One thing I did differently from the original lab is  switched the entire lab away from using shell scripts to do provisioning and moved it over to ansible.</p>
+</li>
+<li>
+<p><strong>Installed DNSMasq on all three of the clusters</strong>.  The original <a href="https://discoposse.com/">discoposse</a> cluster did not have the node configured to use consul as one of their DNS servers. This made it a little bit painful to hop onto a node in the cluster and try to <code>curl</code> to a target endpoint for a service.</p>
+</li>
+<li>
+<p><strong>Leveraged a Krakend service API gateway</strong>. Through my professional work and my book I have used the concept of API gateways to provide a central policy enforcement point (PEP) for all service calls. I wanted to try out a different API gateway then the Spring Cloud API gateway so I settled on trying Krakend. Its a pretty good API gateway and I am still learning the ins and outs if it.</p>
+</li>
+<li>
+<p><strong>A simple service to deploy</strong>.  The original <a href="https://discoposse.com/">discoposse</a> lab set up the cluster, but did not include a sample service to actually test to see if everything is working correctly. I wrote a simple GoLang service and included everything to deploy it. The service is nothing more then a healthcheck endpoint but it is an example of how to build and deploy a service. For my own edification, I spent some time playing around with Packer and use Packer to build my docker container.</p>
+</li>
+</ol>
+<p>I really enjoyed building this cluster out. I have used Kubernetes in the past, so it was refreshing to see a robust alternative to Kubernetes.</p>
+<h2 id="additional-resources">Additional Resources</h2>
+<ol>
+<li><a href="https://discoposse.com/2019/11/21/building-a-hashicorp-nomad-cluster-lab-using-vagrant-and-virtualbox/">Original Discoposse blog post</a>.</li>
+<li><a href="https://github.com/discoposse/nomad-vagrant-lab">Discoposse GitHub lab</a>.</li>
+<li><a href="https://github.com/thoughtmechanix-public/nomad-cluster">My Nomad cluster lab</a>.</li>
+<li><a href="https://www.nomadproject.io/">Nomad</a>.</li>
+<li><a href="https://www.consul.io/">Consul</a>.</li>
+<li><a href="https://www.packer.io/">Packer</a>.</li>
+<li><a href="https://thekelleys.org.uk/dnsmasq/doc.html">DnsMasq</a>.</li>
+<li><a href="https://www.krakend.io/">Krakend</a>.</li>
+<li><a href="https://www.ansible.com/">Ansible</a>.</li>
+</ol>
+
+  </div>
+
+  
+<div>
+  <ul class="tags">
+  <li>
+    <a href="https://thoughtmechanix.com/tags/devops/" class="tag-link">DevOps</a>
+  </li>
+  
+  <li>
+    <a href="https://thoughtmechanix.com/tags/docker/" class="tag-link">Docker</a>
+  </li>
+  
+  <li>
+    <a href="https://thoughtmechanix.com/tags/nomad/" class="tag-link">Nomad</a>
+  </li>
+  
+  <li>
+    <a href="https://thoughtmechanix.com/tags/packer/" class="tag-link">Packer</a>
+  </li>
+  
+  <li>
+    <a href="https://thoughtmechanix.com/tags/ansible/" class="tag-link">Ansible</a>
+  </li>
+  
+  <li>
+    <a href="https://thoughtmechanix.com/tags/consul/" class="tag-link">Consul</a>
+  </li>
+  
+  <li>
+    <a href="https://thoughtmechanix.com/tags/krakend/" class="tag-link">Krakend</a>
+  </li>
+  </ul>
+</div>
+
+
+
+  <div class="share-buttons">
+  <a class="twitter-share-button"
+     href="#"
+     title="Share on Twitter"
+     data-url="https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/"
+     data-text="My Nomad Cluster"><i class="fab fa-twitter"></i></a>
+
+  <a class="linkedin-share-button"
+     href="#"
+     title="Share on LinkedIn"
+     data-url="https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/"
+     data-text="My Nomad Cluster"><i class="fab fa-linkedin-in"></i></a>
+
+  <a class="facebook-share-button"
+     href="#"
+     title="Share on Facebook"
+     data-url="https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/"
+     data-text="My Nomad Cluster"><i class="fab fa-facebook"></i></a>
+
+  <a class="telegram-share-button"
+     href="#"
+     title="Share on Telegram"
+     data-url="https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/"
+     data-text="My Nomad Cluster"><i class="fab fa-telegram"></i></a>
+
+  <a class="pinterest-share-button"
+     href="#"
+     title="Share on Pinterest"
+     data-url="https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/"
+     data-text="My Nomad Cluster"><i class="fab fa-pinterest"></i></a>
+</div>
+
+
+  
+</div>
+  </main>
+
+  <footer>
+  <div>
+    <p>
+      &copy; John Carnell 2022
+
+      &middot; <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank">CC BY-SA 4.0</a>
+
+      
+    </p>
+  </div>
+</footer>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"
+          integrity="sha256-MAgcygDRahs+F/Nk5Vz387whB4kSK9NXlDN3w58LLq0="
+          crossorigin="anonymous"></script>
+
+
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/soho.js"></script>
+
+  <script src="/js/blog.js"></script>
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'G-P6W8K5HNDP', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</body>
+</html>
