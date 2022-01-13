@@ -3,27 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://thoughtmechanix.com/</loc>
-    <lastmod>2021-08-01T00:00:00+00:00</lastmod>
+    <lastmod>2022-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/tags/ansible/</loc>
+    <lastmod>2022-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/tags/consul/</loc>
+    <lastmod>2022-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/tags/devops/</loc>
+    <lastmod>2022-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/tags/docker/</loc>
+    <lastmod>2022-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/tags/krakend/</loc>
+    <lastmod>2022-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/</loc>
+    <lastmod>2022-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/tags/nomad/</loc>
+    <lastmod>2022-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/tags/packer/</loc>
+    <lastmod>2022-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/posts/</loc>
+    <lastmod>2022-01-13T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thoughtmechanix.com/tags/</loc>
+    <lastmod>2022-01-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://thoughtmechanix.com/posts/8.01.2021_packer/</loc>
     <lastmod>2021-08-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://thoughtmechanix.com/tags/devops/</loc>
-    <lastmod>2021-08-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://thoughtmechanix.com/tags/docker/</loc>
-    <lastmod>2021-08-01T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://thoughtmechanix.com/tags/hcl/</loc>
-    <lastmod>2021-08-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://thoughtmechanix.com/tags/packer/</loc>
-    <lastmod>2021-08-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://thoughtmechanix.com/posts/</loc>
-    <lastmod>2021-08-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://thoughtmechanix.com/tags/</loc>
     <lastmod>2021-08-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://thoughtmechanix.com/aboutme/</loc>
@@ -35,17 +50,7 @@
     <loc>https://thoughtmechanix.com/project/</loc>
     <lastmod>2021-05-04T11:30:13+05:30</lastmod>
   </url><url>
-    <loc>https://thoughtmechanix.com/tags/ansible/</loc>
-  </url><url>
     <loc>https://thoughtmechanix.com/categories/</loc>
-  </url><url>
-    <loc>https://thoughtmechanix.com/tags/consul/</loc>
-  </url><url>
-    <loc>https://thoughtmechanix.com/tags/krakend/</loc>
-  </url><url>
-    <loc>https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/</loc>
-  </url><url>
-    <loc>https://thoughtmechanix.com/tags/nomad/</loc>
   </url><url>
     <loc>https://thoughtmechanix.com/series/</loc>
   </url>

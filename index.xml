@@ -6,7 +6,16 @@
     <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 01 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://thoughtmechanix.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 13 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://thoughtmechanix.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Nomad Cluster</title>
+      <link>https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/</link>
+      <pubDate>Thu, 13 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/</guid>
+      <description>Over the last year I have become a big fan of the Hashicorp stack.</description>
+    </item>
+    
     <item>
       <title>Building and publishing a Docker image with Packer</title>
       <link>https://thoughtmechanix.com/posts/8.01.2021_packer/</link>
@@ -32,15 +41,6 @@
       
       <guid>https://thoughtmechanix.com/project/example/</guid>
       <description>Ban</description>
-    </item>
-    
-    <item>
-      <title>My Nomad Cluster</title>
-      <link>https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/</guid>
-      <description>Over the last year I have become a big fan of the Hashicorp stack.</description>
     </item>
     
   </channel>
