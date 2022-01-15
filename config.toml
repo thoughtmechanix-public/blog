@@ -58,6 +58,12 @@ customJs = ["js/blog.js"]
   weight = 300
   url = "/aboutme/"
 
+  [[menu.main]]
+  name = "Publications"
+  identifier = "publications"
+  weight = 300
+  url = "/mypublications/"
+
 
 [taxonomies]
   category = "categories"
