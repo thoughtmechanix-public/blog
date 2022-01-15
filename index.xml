@@ -8,6 +8,15 @@
     <language>en</language>
     <lastBuildDate>Thu, 13 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://thoughtmechanix.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>My Publications</title>
+      <link>https://thoughtmechanix.com/mypublications/</link>
+      <pubDate>Fri, 14 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://thoughtmechanix.com/mypublications/</guid>
+      <description>Writing is often a lonely task. It starts often with an idea and an itch to share that idea.</description>
+    </item>
+    
+    <item>
       <title>My Nomad Cluster</title>
       <link>https://thoughtmechanix.com/posts/1.13.2022_nomad_cluster/</link>
       <pubDate>Thu, 13 Jan 2022 00:00:00 +0000</pubDate>
